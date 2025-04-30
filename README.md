@@ -24,4 +24,10 @@ d73928430@gmail.com
 AnimOne, AnimDuo, and AnimTrice are the repositories that come before "Quatro". 
 These four repositories total up the "Anim-" series.
 ##
-To visit AnimOne click this link:
+To visit AnimOne, click this link:
+https://github.com/The3DP/AnimOne
+##
+To visit AnimDuo, click this link:
+
+##
+To visit AnimTrice, click this link:
