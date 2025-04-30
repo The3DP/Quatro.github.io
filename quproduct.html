@@ -1,1 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhanced Angry Ball Game with Sound</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      position: relative;
+    }
 
+    /* Dynamic background */
+    @keyframes backgroundAnimation {
+      0% { background-color: #111;}
+      25% { background-color: #333;}
+      50% { background-color: #555;}
+      75% { background-color: #777;}
+      100% { background-color: #111;}
+    }
+    body {
+      animation: backgroundAnimation 10s infinite alternate;
+    }
+
+    /* Cute ball with a face */
+    .ball {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #FF69B4; /* Pink color */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      text-align: center;
+      font-family: "Arial", sans-serif;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+      transition: all 0.1s ease-out;
+      animation: ballAnimation 1s infinite alternate; /* Add animation */
+    }
+
+    @keyframes ballAnimation {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.2); }
+    }
+
+    /* Face on the ball */
+    .face {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      height: 100%;
+    }
+
+    .eye {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+    .mouth {
+      width: 15px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: white;
+      margin-top: 10px;
+    }
+
+    /* Angry face */
+    .angry .eye {
+      background-color: red;
+    }
+
+    .angry .mouth {
+      width: 20px;
+      height: 8px;
+      background-color: red;
+      margin-top: 8px;
+    }
+
+    .angry .face {
+      transform: rotate(20deg);
+    }
+
+    /* Game Over message */
+    .game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 30px;
+      color: white;
+      text-align: center;
+      transform: translate(-50%, -50%);
+      display: none;
+      font-family: "Arial", sans-serif;
+    }
+
+    /* Explosion effects */
+    .explosion {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 105, 180, 0.9), rgba(255, 255, 255, 0.5));
+      animation: explosionEffect 0.5s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes explosionEffect {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
+    /* Trail effect */
+    .trail {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: #ff69b4;
+      border-radius: 50%;
+      animation: trailAnimation 0.5s forwards;
+      pointer-events: none;
+    }
+
+    @keyframes trailAnimation {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    /* Power-up style */
+    .power-up {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: gold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .power-up:hover {
+      transform: scale(1.3);
+    }
+
+    /* Timer and score display */
+    .score {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      color: white;
+    }
+
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cute ball with a face -->
+  <div class="ball" id="cuteBall">
+    <div class="face">
+      <div class="eye"></div>
+      <div class="eye"></div>
+    </div>
+    <div class="mouth"></div>
+  </div>
+
+  <!-- Game over message -->
+  <div class="game-over" id="gameOverMessage">Game Over!</div>
+
+  <!-- Power-ups -->
+  <div class="power-up" id="speedBoostPowerUp">⚡</div>
+  <div class="power-up" id="timeFreezePowerUp">⏸️</div>
+
+  <!-- Score and Timer -->
+  <div class="score" id="scoreDisplay">Score: 0</div>
+  <div class="timer" id="timerDisplay">Time: 60</div>
+
+  <!-- Sound effects and music -->
+  <audio id="backgroundMusic" loop>
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/mpeg"> <!-- Example of music link, replace with your own 8-bit music -->
+    Your browser does not support the audio tag.
+  </audio>
+  <audio id="touchSound">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/mpeg">
+  </audio>
+  <audio id="explosionSound">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/mpeg">
+  </audio>
+  <audio id="powerUpSound">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/mpeg">
+  </audio>
+  <audio id="gameOverSound">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const ball = document.getElementById('cuteBall');
+    const gameOverMessage = document.getElementById('gameOverMessage');
+    const powerUp = document.getElementById('speedBoostPowerUp');
+    const timeFreezePowerUp = document.getElementById('timeFreezePowerUp');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const touchSound = document.getElementById('touchSound');
+    const explosionSound = document.getElementById('explosionSound');
+    const powerUpSound = document.getElementById('powerUpSound');
+    const gameOverSound = document.getElementById('gameOverSound');
+    
+    let ballX = 0;
+    let ballY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let score = 0;
+    let gameOver = false;
+    let timer = 60;
+    let powerUpActive = false;
+    let gameInterval;
+    let timerInterval;
+    let timeFreezeActive = false;
+    let speed = 0.05;
+
+    // Mouse movement event listener
+    window.addEventListener('mousemove', (event) => {
+      if (gameOver || timeFreezeActive) return; // Ignore movement if time is frozen
+
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+
+      // Move ball towards the mouse position
+      ballX += (mouseX - ballX) * speed;
+      ballY += (mouseY - ballY) * speed;
+
+      ball.style.left = `${ballX - ball.offsetWidth / 2}px`;
+      ball.style.top = `${ballY - ball.offsetHeight / 2}px`;
+
+      // Check if the ball touches the mouse
+      if (Math.abs(mouseX - ballX) < ball.offsetWidth / 2 && Math.abs(mouseY - ballY) < ball.offsetHeight / 2) {
+        score++;
+        updateScore();
+        playTouchSound();
+        createExplosion();
+      }
+    });
+
+    // Activate speed boost power-up
+    function activateSpeedBoost() {
+      if (!powerUpActive) {
+        powerUpActive = true;
+        speed = 0.1;  // Speed boost
+        powerUp.style.backgroundColor = 'green'; // Power-up active visual change
+        powerUpSound.play();
+        setTimeout(() => {
+          powerUp.style.backgroundColor = 'gold';  // Reset color
+          speed = 0.05;  // Reset speed
+          powerUpActive = false;
+        }, 5000);  // Power-up lasts for 5 seconds
+      }
+    }
+
+    // Freeze time power-up
+    function activateTimeFreeze() {
+      if (!timeFreezeActive) {
+        timeFreezeActive = true;
+        timerDisplay.style.color = 'blue';  // Change color to indicate freeze
+        setTimeout(() => {
+          timeFreezeActive = false;
+          timerDisplay.style.color = 'white';  // Reset color
+        }, 5000);  // Freeze lasts for 5 seconds
+      }
+    }
+
+    // Create explosion effect
+    function createExplosion() {
+      const explosion = document.createElement('div');
+      explosion.classList.add('explosion');
+      explosion.style.left = `${ballX - 50}px`;
+      explosion.style.top = `${ballY - 50}px`;
+      document.body.appendChild(explosion);
+      explosionSound.play();
+      setTimeout(() => explosion.remove(), 500);
+    }
+
+    // Play touch sound
+    function playTouchSound() {
+      touchSound.play();
+    }
+
+    // Update score display
+    function updateScore() {
+      scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    // Timer countdown
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        if (timer <= 0) {
+          clearInterval(timerInterval);
+          gameOver = true;
+          gameOverMessage.style.display = 'block';
+          ball.style.display = 'none';
+          gameOverSound.play();
+        } else {
+          timer--;
+          timerDisplay.textContent = `Time: ${timer}`;
+        }
+      }, 1000);
+    }
+
+    // Start the game
+    function startGame() {
+      score = 0;
+      timer = 60;
+      gameOver = false;
+      scoreDisplay.style.display = 'block';
+      gameOverMessage.style.display = 'none';
+      ball.style.display = 'block';
+      startTimer();
+      backgroundMusic.play();  // Start background music
+    }
+
+    startGame();  // Start the game when page loads
+
+    // Power-ups event listeners
+    powerUp.addEventListener('click', activateSpeedBoost);
+    timeFreezePowerUp.addEventListener('click', activateTimeFreeze);
+  </script>
+</body>
+</html>
