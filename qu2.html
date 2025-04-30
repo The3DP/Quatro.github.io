@@ -1,1 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Angry Ball Game</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Cute ball with a face */
+    .ball {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #FF69B4; /* Pink color */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      text-align: center;
+      font-family: "Arial", sans-serif;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+      transition: all 0.1s ease-out;
+    }
+
+    /* Face on the ball */
+    .face {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      height: 100%;
+    }
+
+    .eye {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+    .mouth {
+      width: 15px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: white;
+      margin-top: 10px;
+    }
+
+    /* Angry face */
+    .angry .eye {
+      background-color: red;
+    }
+
+    .angry .mouth {
+      width: 20px;
+      height: 8px;
+      background-color: red;
+      margin-top: 8px;
+    }
+
+    .angry .face {
+      transform: rotate(20deg);
+    }
+
+    /* Game Over message */
+    .game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 30px;
+      color: white;
+      text-align: center;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cute ball with a face -->
+  <div class="ball" id="cuteBall">
+    <div class="face">
+      <div class="eye"></div>
+      <div class="eye"></div>
+    </div>
+    <div class="mouth"></div>
+  </div>
+
+  <!-- Game over message -->
+  <div class="game-over" id="gameOverMessage">Game Over!</div>
+
+  <script>
+    const ball = document.getElementById('cuteBall');
+    const gameOverMessage = document.getElementById('gameOverMessage');
+    
+    let ballX = 0;
+    let ballY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    const speed = 0.05;  // Speed at which the ball follows the mouse
+    let lastX = 0;
+    let lastY = 0;
+    let rotationCount = 0;  // Tracks number of full rotations
+    let angle = 0; // Angle for mouse movement
+    let timeWithoutTouch = 0;  // Time counter for angry face
+    let angryThreshold = 5000;  // Time before the face becomes angry (5 seconds)
+    
+    // Mouse move event listener
+    window.addEventListener('mousemove', (event) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      
+      // Calculate the angle of the mouse movement
+      const deltaX = mouseX - lastX;
+      const deltaY = mouseY - lastY;
+      angle = Math.atan2(deltaY, deltaX);
+
+      // Check if the mouse has made a full circle (2π radians)
+      if (Math.abs(angle - lastAngle) > Math.PI) {
+        rotationCount++;
+      }
+
+      lastX = mouseX;
+      lastY = mouseY;
+      lastAngle = angle;
+      
+      // Check for ball explosion after 5 rotations
+      if (rotationCount >= 5) {
+        explodeBall();
+      }
+
+      // Reset time without touch when the mouse touches the ball
+      if (Math.abs(mouseX - ballX) < ball.offsetWidth / 2 && Math.abs(mouseY - ballY) < ball.offsetHeight / 2) {
+        showGameOver();
+      }
+    });
+
+    // Function to smoothly move the ball towards the mouse position
+    function moveBall() {
+      ballX += (mouseX - ballX) * speed;
+      ballY += (mouseY - ballY) * speed;
+
+      ball.style.left = `${ballX - ball.offsetWidth / 2}px`;
+      ball.style.top = `${ballY - ball.offsetHeight / 2}px`;
+
+      requestAnimationFrame(moveBall); // Keep calling the function to animate
+
+      // Increment the time without touch counter
+      timeWithoutTouch += 100;
+      if (timeWithoutTouch > angryThreshold) {
+        makeBallAngry();
+      }
+    }
+
+    // Make the ball angrier the longer the time without touch
+    function makeBallAngry() {
+      ball.classList.add('angry');
+    }
+
+    // Function to explode the ball when mouse spins in a circle 5 times
+    function explodeBall() {
+      ball.style.animation = 'explode 1s forwards';
+      ball.innerHTML = '💥';  // Change content to an explosion emoji
+      setTimeout(() => {
+        ball.style.display = 'none';  // Hide the ball after explosion
+      }, 1000);
+    }
+
+    // Show game over message when ball touches the mouse
+    function showGameOver() {
+      gameOverMessage.style.display = 'block';
+      ball.style.display = 'none';  // Hide the ball when game is over
+      cancelAnimationFrame(moveBall); // Stop ball movement
+    }
+
+    // Start moving the ball
+    moveBall();
+  </script>
+</body>
+</html>
 
