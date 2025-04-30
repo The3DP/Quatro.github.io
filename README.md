@@ -34,5 +34,5 @@ To visit AnimTrice, click this link:
 https://github.com/The3DP/AnimTrice
 ##
 Also, please visit our webiste:
-markandtraci.com
+https://markandtraci.com
 ##
