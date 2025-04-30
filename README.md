@@ -28,6 +28,8 @@ To visit AnimOne, click this link:
 https://github.com/The3DP/AnimOne
 ##
 To visit AnimDuo, click this link:
-
+https://github.com/The3DP/AnimDuo
 ##
 To visit AnimTrice, click this link:
+
+##
