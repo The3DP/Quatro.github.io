@@ -19,3 +19,6 @@ d73928430@gmail.com
 
 - The3DP
 ##
+>What other repositories are part of the "Anim-" series?
+##
+AnimOne, AnimDuo, and AnimTrice 
