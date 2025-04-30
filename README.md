@@ -33,3 +33,6 @@ https://github.com/The3DP/AnimDuo
 To visit AnimTrice, click this link:
 https://github.com/The3DP/AnimTrice
 ##
+Also, please visit our webiste:
+mark@markandtraci.com
+##
