@@ -21,4 +21,4 @@ d73928430@gmail.com
 ##
 >What other repositories are part of the "Anim-" series?
 ##
-AnimOne, AnimDuo, and AnimTrice 
+AnimOne, AnimDuo, and AnimTrice are the rest of the repositories.
