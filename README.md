@@ -2,7 +2,7 @@
 
 
 ##
-This fourth and last repo in the "Anim-" series shows the true meaning in animation. 
+This fourth and last repo in the "Anim-" series shows the true meaning of animation. 
 ##
 Recommended Testing Sites (RTS) 
 Are sites that I test these codes on
