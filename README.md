@@ -39,3 +39,4 @@ https://github.com/The3DP/AnimTrice
 Also, please visit our webiste:
 https://markandtraci.com
 ##
+![100% Complete](https://img.shields.io/badge/Progress-100%25-darkgreen)
