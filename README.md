@@ -36,7 +36,7 @@ https://github.com/The3DP/AnimDuo
 To visit AnimTrice, click this link:
 https://github.com/The3DP/AnimTrice
 ##
-Also, please visit our webiste:
-https://markandtraci.com
-##
+
+### Contact d73928430@gmail.com if you are experiencing any problems. Thank you!
+
 ![100% Complete](https://img.shields.io/badge/Progress-100%25-darkgreen)
