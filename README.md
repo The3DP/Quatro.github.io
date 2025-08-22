@@ -11,7 +11,7 @@
 
 ---
 
-## 🧪 Recommended Testing Site (RTS)
+## 🧪 Recommended Testing Sites (RTS)
 
 You can test and preview the code from this repository on **W3Schools' "Try it Yourself"** editor — a free and user-friendly HTML/CSS/JS playground.
 
