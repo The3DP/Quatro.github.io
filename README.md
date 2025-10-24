@@ -38,7 +38,7 @@ Quatro is the final piece of a four-part animated series. Explore the full progr
 - 🔹 **AnimOne** — [View on GitHub](https://github.com/The3DP/AnimOne)
 - 🔸 **AnimDuo** — [View on GitHub](https://github.com/The3DP/AnimDuo)
 - 🔹 **AnimTrice** — [View on GitHub](https://github.com/The3DP/AnimTrice)
-- 🔸 **Quatro** — *(you are here)*
+- 🔸 **Quatro** — *(this repository)*
 
 Together, these four projects make up the complete "Anim-" saga.
 
